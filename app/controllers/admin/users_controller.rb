@@ -3,6 +3,11 @@ class Admin::UsersController < ApplicationController
     @users = User.where(admin: false)
   end
 
+   def task_dashboard
+    @students = User.where(admin: false)
+    @projects = Project.includes(:tasks) # preloads tasks to avoid N+1
+   end
+
   def edit 
     @user = User.find(params[:id])
   end

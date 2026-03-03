@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
   namespace :admin do 
-    resources :users
+    resources :users do 
+      collection do
+      get :task_dashboard
+    end
+    end
 
     resources :projects do
       resources :tasks
