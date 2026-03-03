@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assigned_date: 2026-01-29
+  due_date: 2026-01-29
+  admin: one
+  student: one
+  project: one
+
+two:
+  assigned_date: 2026-01-29
+  due_date: 2026-01-29
+  admin: two
+  student: two
+  project: two

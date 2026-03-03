@@ -1,0 +1,58 @@
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Project Management</h2>
+    <%= link_to "New Project", new_admin_project_path, 
+        class: "btn btn-primary shadow-sm" %>
+  </div>
+
+  <div class="card shadow-lg border-0">
+    <div class="card-body p-4">
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Project Title</th>
+              <th scope="col" class="text-center">View</th>
+              <th scope="col" class="text-center">Edit</th>
+              <th scope="col" class="text-center">Delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @projects.each do |project| %>
+              <tr>
+                <td class="fw-semibold"><%= project.title %></td>
+
+                <td class="text-center">
+                  <%= link_to "View",
+                      admin_project_path(project),
+                      class: "btn btn-sm btn-outline-primary" %>
+                </td>
+
+                <td class="text-center">
+                  <%= link_to "Edit",
+                      edit_admin_project_path(project),
+                      class: "btn btn-sm btn-outline-warning" %>
+                </td>
+
+                <td class="text-center">
+                  <%= button_to "Delete",
+                      admin_project_path(project),
+                      method: :delete,
+                      data: { confirm: "Are you sure?" },
+                      class: "btn btn-sm btn-outline-danger" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

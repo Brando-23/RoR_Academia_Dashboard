@@ -1,0 +1,49 @@
+<div class="container mt-5">
+
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+
+          <h3 class="mb-4 fw-bold text-center text-success">
+            Create New Task
+          </h3>
+
+          <%= form_with model: [:admin, @project, @task] do |form| %>
+
+            <div class="mb-3">
+              <%= form.label :title, class: "form-label fw-semibold" %>
+              <%= form.text_field :title,
+                    class: "form-control",
+                    placeholder: "Enter task title" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :task_description, class: "form-label fw-semibold" %>
+              <%= form.text_area :task_description,
+                    rows: 4,
+                    class: "form-control",
+                    placeholder: "Enter task details" %>
+            </div>
+
+            <div class="d-grid">
+              <%= form.submit "Create Task",
+                    class: "btn btn-success btn-lg shadow-sm" %>
+            </div>
+
+          <% end %>
+
+          <div class="text-center mt-3">
+            <%= link_to "Back to Project",
+                  admin_project_path(@project),
+                  class: "text-decoration-none" %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
