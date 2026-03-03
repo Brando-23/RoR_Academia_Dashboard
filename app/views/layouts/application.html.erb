@@ -1,16 +1,91 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ManagementApplication</title>
+    <title>Management Application</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-light">
+
+    <% if user_signed_in? %>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold fs-4 text-dark" href="#">
+      <i class="bi bi-kanban-fill me-2"></i>ManagementApp
+    </a>
+
+    <!-- Mobile toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLight" aria-controls="navbarLight" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="navbarLight">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <% if current_user.admin? %>
+          <li class="nav-item">
+            <%= link_to "Manage Users", admin_users_path, class: "nav-link text-dark #{'fw-bold border-bottom border-2 border-primary' if current_page?(admin_users_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Manage Projects", admin_projects_path, class: "nav-link text-dark #{'fw-bold border-bottom border-2 border-primary' if current_page?(admin_projects_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Student Dashboard", task_dashboard_admin_users_path, class: "nav-link text-dark #{'fw-bold border-bottom border-2 border-primary' if current_page?(task_dashboard_admin_users_path)}" %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "My Projects", projects_path, class: "nav-link text-dark #{'fw-bold border-bottom border-2 border-primary' if current_page?(projects_path)}" %>
+          </li>
+        <% end %>
+      </ul>
+
+      <!-- User info and logout -->
+      <div class="d-flex align-items-center">
+        <span class="text-dark me-3 small">
+          <i class="bi bi-person-circle me-1"></i><%= current_user.email %>
+        </span>
+        <%= button_to "Logout",
+              destroy_user_session_path,
+              method: :delete,
+              class: "btn btn-outline-dark btn-sm shadow-sm" %>
+      </div>
+    </div>
+  </div>
+</nav>
+    <% end %>
+
+    <!-- Flash Messages -->
+    <div class="container mt-4">
+
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+
+    </div>
+
   </body>
 </html>

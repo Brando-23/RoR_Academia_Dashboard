@@ -1,0 +1,118 @@
+<div class="container mt-5">
+
+  <!-- Project Header -->
+  <div class="card shadow-lg border-0 mb-4">
+    <div class="card-body">
+      <h2 class="fw-bold mb-3"><%= @project.title %></h2>
+      <p class="text-muted mb-0">
+        <strong>Description:</strong>
+        <%= @project.description %>
+      </p>
+    </div>
+  </div>
+
+  <!-- Assigned Students -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h4 class="mb-3">Assigned Students</h4>
+
+      <% if @assigned_users.any? %>
+        <ul class="list-group">
+          <% @assigned_users.each do |user| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><%= user.email %></span>
+
+              <%= button_to "Unassign",
+                  admin_project_assignment_path(@project, user.assignments.find_by(project: @project)),
+                  method: :delete,
+                  class: "btn btn-sm btn-outline-danger" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">No students assigned yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Assign New Student -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h4 class="mb-3">Assign New Student</h4>
+
+      <%= form_with model: [:admin, @project, @assignment] do |form| %>
+
+        <div class="mb-3">
+          <%= form.label :user_id, "Select Student", class: "form-label fw-semibold" %>
+          <%= form.collection_select :user_id,
+                @unassigned_users,
+                :id,
+                :email,
+                {},
+                { class: "form-select" } %>
+        </div>
+
+        <%= form.submit "Assign User",
+              class: "btn btn-primary shadow-sm" %>
+
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Tasks</h4>
+        <%= link_to "Add New Task",
+              new_admin_project_task_path(@project),
+              class: "btn btn-success btn-sm shadow-sm" %>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+
+          <thead class="table-dark">
+            <tr>
+              <th>Task Title</th>
+              <th class="text-center">Edit</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @tasks.each do |task| %>
+              <tr>
+                <td><%= task.title %></td>
+
+                <td class="text-center">
+                  <%= link_to "Edit",
+                        edit_admin_project_task_path(@project, task),
+                        class: "btn btn-sm btn-outline-warning" %>
+                </td>
+
+                <td class="text-center">
+                  <%= button_to "Delete",
+                        admin_project_task_path(@project, task),
+                        method: :delete,
+                        class: "btn btn-sm btn-outline-danger" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <div class="text-center">
+    <%= link_to "Back to Projects",
+          admin_projects_path,
+          class: "btn btn-secondary" %>
+  </div>
+
+</div>

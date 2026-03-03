@@ -1,0 +1,79 @@
+<div class="container mt-5">
+
+  <!-- Project Header -->
+  <div class="mb-4">
+    <h2 class="fw-bold"><%= @project.title %></h2>
+    <p class="text-muted"><%= @project.description %></p>
+  </div>
+
+  <hr class="mb-4">
+
+  <!-- Tasks Section -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-semibold">Tasks</h4>
+  </div>
+
+  <% if @tasks.any? %>
+
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @tasks.each do |task| %>
+              <tr>
+                <td class="fw-semibold"><%= task.title %></td>
+
+                <td class="text-muted">
+                  <%= truncate(task.task_description, length: 60) %>
+                </td>
+
+                <td>
+                  <% case task.status %>
+                  <% when "pending" %>
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  <% when "in_progress" %>
+                    <span class="badge bg-info text-dark">In Progress</span>
+                  <% when "completed" %>
+                    <span class="badge bg-success">Completed</span>
+                  <% else %>
+                    <span class="badge bg-secondary"><%= task.status %></span>
+                  <% end %>
+                </td>
+
+                <td class="text-end">
+                  <%= link_to "Update Status",
+                        edit_project_task_path(@project, task),
+                        class: "btn btn-sm btn-outline-primary" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  <% else %>
+
+    <div class="alert alert-info">
+      No tasks assigned to this project yet.
+    </div>
+
+  <% end %>
+
+  <div class="mt-4">
+    <%= link_to "← Back to Projects",
+          projects_path,
+          class: "btn btn-secondary" %>
+  </div>
+
+</div>

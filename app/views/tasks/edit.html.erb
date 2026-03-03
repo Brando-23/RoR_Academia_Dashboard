@@ -1,0 +1,40 @@
+<div class="container mt-5">
+
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+          <h4 class="fw-bold mb-4 text-center">Update Task Status</h4>
+
+          <%= form_with model: [@project, @task], local: true do |form| %>
+
+            <div class="mb-3">
+              <%= form.label :status, class: "form-label fw-semibold" %>
+              <%= form.select :status,
+                    ["pending", "in_progress", "completed"],
+                    {},
+                    class: "form-select" %>
+            </div>
+
+            <div class="d-grid mb-3">
+              <%= form.submit "Update Status",
+                    class: "btn btn-primary" %>
+            </div>
+
+          <% end %>
+
+          <div class="text-center">
+            <%= link_to "← Back to Project",
+                  project_path(@project),
+                  class: "btn btn-outline-secondary btn-sm" %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

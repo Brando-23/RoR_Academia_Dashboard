@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+.task-checkbox:checked + .task-text .task-desc {
+  text-decoration: line-through;
+  color: #6c757d; /* Bootstrap muted color */
+}
+
